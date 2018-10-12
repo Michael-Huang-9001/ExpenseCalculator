@@ -27,7 +27,7 @@ mongoose.connect(
 
 const Entry = require("./models/entry");
 
-Entry.({
+Entry.create({
   username: "SolaceFZ",
   content: {
     attr1: "Example1",
