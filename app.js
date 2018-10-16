@@ -33,11 +33,13 @@ Entry.create({
     attr1: "Example1",
     attr2: "Example2"
   }
+}, function (err, created) {
+  console.log(created);
 });
 
 const port = process.env.port || 8000;
 
-app.listen(port, function() {
+app.listen(port, function () {
   console.log(`App is running on ${port}`);
 });
 
