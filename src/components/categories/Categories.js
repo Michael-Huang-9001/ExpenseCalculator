@@ -1,10 +1,10 @@
 import React, { Component } from "react";
-import "./Settings.css";
+import "./Categories.css";
 
-class Settings extends Component {
+class Categories extends Component {
   render() {
     return (
-      <div className="Settings col-sm">
+      <div className="Categories col-sm">
           Monthly limit?<br />
           <input type="number" placeholder="Limit"></input>
       </div>
@@ -12,4 +12,4 @@ class Settings extends Component {
   }
 }
 
-export default Settings;
+export default Categories;

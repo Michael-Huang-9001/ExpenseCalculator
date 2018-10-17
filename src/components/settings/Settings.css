@@ -1,8 +1,6 @@
-.button-array {
-    text-align: center;
-}
 
-button {
-    /* background-color: chartreuse !important; */
-    text-align: center !important;
+.Settings {
+    margin: 5px;
+    padding-right: 15px !important;
+    width: 5% !important;
 }
