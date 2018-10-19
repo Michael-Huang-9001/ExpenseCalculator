@@ -5,8 +5,10 @@ class Settings extends Component {
   render() {
     return (
       <div className="Settings col-sm">
-          Monthly limit?<br />
-          <input type="number" placeholder="Limit"></input>
+        <h5>Settings</h5>
+        <hr></hr>
+        Monthly limit?<br />
+        <input type="number" placeholder="Limit"></input>
       </div>
     );
   }

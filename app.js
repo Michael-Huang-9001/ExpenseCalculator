@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyparser = require("body-parser");
 const helmet = require("helmet");
+const path = require('path');
 
 const mongoose = require("mongoose");
 const db_configs = require("./config/db");
@@ -12,6 +13,14 @@ let app = express();
 app.use(helmet());
 app.use(bodyparser.json({ type: "application/*+json" }));
 app.use(router);
+
+app.get('/*', function (req, res) {
+  res.sendFile(path.join(__dirname, '/public/index.html'), function (err) {
+    if (err) {
+      res.status(500).send(err)
+    }
+  })
+})
 
 // Database
 mongoose.connect(
@@ -27,15 +36,15 @@ mongoose.connect(
 
 const Entry = require("./models/entry");
 
-Entry.create({
-  username: "SolaceFZ",
-  content: {
-    attr1: "Example1",
-    attr2: "Example2"
-  }
-}, function (err, created) {
-  console.log(created);
-});
+// Entry.create({
+//   username: "SolaceFZ",
+//   content: {
+//     attr1: "Example1",
+//     attr2: "Example2"
+//   }
+// }, function (err, created) {
+//   console.log(created);
+// });
 
 const port = process.env.port || 8000;
 

@@ -5,8 +5,8 @@ class Categories extends Component {
   render() {
     return (
       <div className="Categories col-sm">
-          Monthly limit?<br />
-          <input type="number" placeholder="Limit"></input>
+        <h5>Categories</h5>
+        <hr></hr>
       </div>
     );
   }
