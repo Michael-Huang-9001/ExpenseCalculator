@@ -23,7 +23,7 @@ app.get('/*', function (req, res) {
 })
 
 // Database
-mongoose.connect(
+mongoose.connect({ useNewUrlParser: true },
   db_configs.url,
   err => {
     if (err) {

@@ -1,3 +1,13 @@
 .Entry {
     border: 1px black;
 }
+
+.collapse {
+    padding-left: 50px !important;
+    margin: 0px !important;
+}
+
+.collapsing {
+    padding-left: 50px !important;
+    margin: 0px !important;
+}
