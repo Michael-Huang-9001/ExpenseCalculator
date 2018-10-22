@@ -2,6 +2,18 @@
     border: 1px black;
 }
 
+tr.tr-hover:hover {
+    background-color: pink !important;
+}
+
+td.details {
+    padding: 0px;
+}
+
+div.details {
+    padding: 15px;
+}
+
 .collapse {
     padding-left: 50px !important;
     margin: 0px !important;
@@ -10,4 +22,13 @@
 .collapsing {
     padding-left: 50px !important;
     margin: 0px !important;
+}
+
+button {
+    float: right !important;
+}
+
+button:hover {
+    background-color: lightcoral;
+    color: white;
 }

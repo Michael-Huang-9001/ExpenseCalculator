@@ -20,18 +20,28 @@ class Main extends Component {
       );
   }
 
+  calc_total() {
+    let total = 0;
+    this.state.entries.forEach((entry) => {
+      total += entry.cost
+    });
+    return Math.round(total * 100) / 100;
+  }
 
   render() {
     return (
       <div className="Main col-auto">
         <img src="https://i.stack.imgur.com/L8d0H.jpg" alt="" className="img-fluid"></img>
         <br />
-        <p style={{ textAlign: "right" }}><b>Total expenditure: $XXX.XX</b></p>
+        <p style={{ textAlign: "right" }}><b>Total expenditure: ${this.calc_total()}</b></p>
 
         <table className="table">
           <thead>
-            <th>Expense name</th>
-            <th>Cost</th> 
+            <tr>
+              <th>Expense name</th>
+              <th>Category</th>
+              <th>Cost</th>
+            </tr>
           </thead>
           <tbody>
             {this.state.entries.map((entry, index) => (
