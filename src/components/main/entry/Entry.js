@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import "./Entry.css";
 import DatePicker from 'react-datepicker';
+import Modal from './Modal';
 
 class Entry extends Component {
   constructor() {
@@ -29,7 +30,7 @@ class Entry extends Component {
           <td colSpan="3" className="details">
             <div id={`entry_${this.props.entry_id}`} className="collapse">
               <br />
-              <button className="btn-sm" data-toggle="modal" data-target="#modal">Edit</button>
+              <button className="btn-sm" data-toggle="modal" data-target={`#entry_modal_${this.props.entry_id}`}>Edit</button>
               <b>Date:</b> {this.props.data.date}
               <br />
               <b>Category:</b> {category}
@@ -41,9 +42,10 @@ class Entry extends Component {
               <b>Notes:</b><br />{this.props.data.notes}
               <br />
               <br />
+
+              <Modal entry_id={this.props.entry_id} key={this.props.entry_id} data={this.props.data}></Modal>
+              
             </div>
-
-
           </td>
         </tr>
       </React.Fragment>
