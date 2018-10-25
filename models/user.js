@@ -1,4 +1,5 @@
 let mongoose = require("mongoose");
+let bcrypt = require('bcrypt');
 
 let user_schema = new mongoose.Schema({
   username: {
@@ -15,11 +16,11 @@ let user_schema = new mongoose.Schema({
     hash: {
       type: String,
       required: true
-    },
-    nacl: {
-      type: String,
-      required: true
     }
+    // nacl: {
+    //   type: String,
+    //   required: true
+    // }
   }
 });
 

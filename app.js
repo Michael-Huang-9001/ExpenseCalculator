@@ -11,7 +11,7 @@ const router = require("./routes/router");
 // App setup
 let app = express();
 app.use(helmet());
-app.use(bodyparser.json({ type: "application/*+json" }));
+app.use(bodyparser.json());
 app.use(router);
 
 app.get('/*', function (req, res) {
