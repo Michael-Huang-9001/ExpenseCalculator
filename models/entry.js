@@ -1,7 +1,7 @@
 let mongoose = require("mongoose");
 
 let entry_schema = new mongoose.Schema({
-  username: {
+  owner: {
     type: String,
     unique: true,
     required: true

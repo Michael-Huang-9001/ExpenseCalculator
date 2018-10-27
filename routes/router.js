@@ -13,15 +13,33 @@ const jwt = require('../config/jwt_auth');
 
 // -------------------------------------------------------------------------
 
+// Auth filter, kicks out any users that are not logged in when accessing secure pages
+function auth(req, res, next) {
+    let token = jwt.verify(req.headers.token);
+    if (token.id) {
+        console.log(token);
+        req.owner = token.id;
+        next();
+    } else {
+        res.json({ msg: "You are not logged in." })
+    }
+}
+
+/**
+ * API entry point. Greetings! :]
+ */
 router.get("/api", function (req, res) {
-    res.json({ msg: 'This is the API!' });
+    res.json({ msg: 'This is the API! :]' });
 });
 
-router.get("/api/test", function (req, res) {
-    Entries.find({ username: 'SolaceFZ' })
+/**
+ * Grabs entries.
+ */
+router.get("/api/test", auth, function (req, res) {
+    Entries.find({ owner: req.owner })
         .then((entry) => {
             res.json(entry);
-        })
+        });
     // res.json([{
     //     entry_name: "AMD Sapphire Radeon RX 580 8GB Special Edition Graphics Card",
     //     cost: 189.99,
@@ -38,10 +56,27 @@ router.get("/api/test", function (req, res) {
     // }]);
 });
 
-router.post('/api/test', function (req, res) {
-
+/**
+ * For posting to an existing entry
+ */
+router.post('/api/test', auth, function (req, res) {
+    Entries.create({
+        owner: req.owner,
+        entry_name: "AMD Sapphire Radeon RX 580 8GB Special Edition Graphics Card",
+        cost: 189.99,
+        date: "October 13, 2018",
+        category: '',
+        notes: 'Original price = 229.99, saved 15% using eBay coupon, used ~60 worth of eBay gift card.'
+    }).then((entry) => {
+        res.json(entry);
+    });
+    //res.json({ msg: "Not yet implemented." });
 });
 
+/**
+ * Helper for validating registration information.
+ * @param {*} body 
+ */
 function validate_registration(body) {
     let error_message = '';
 
@@ -71,6 +106,9 @@ function validate_registration(body) {
     return error_message;
 }
 
+/**
+ * For registering new users.
+ */
 router.post('/api/register', function (req, res) {
     if (req.body) {
         let error_message = validate_registration(req.body);
@@ -105,6 +143,9 @@ router.post('/api/register', function (req, res) {
     }
 });
 
+/**
+ * For authenticating users and log in.
+ */
 router.post('/api/login', function (req, res) {
     if (req.body) {
         if (req.body.login && req.body.password) {
