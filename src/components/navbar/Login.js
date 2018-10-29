@@ -45,7 +45,6 @@ class Login extends React.Component {
                 alert(data.msg);
             } else {
                 let token = data.token;
-                alert(data.token);
             }
         }).catch((error) => {
             console.log(error);
