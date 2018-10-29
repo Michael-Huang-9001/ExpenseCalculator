@@ -12,7 +12,6 @@ class Modal extends React.Component {
             date: moment(this.props.data.date)
         };
         this.handleChange = this.handleChange.bind(this);
-
     }
 
     handleChange(date) {
@@ -22,7 +21,6 @@ class Modal extends React.Component {
     }
 
     handleSUbmit(event) {
-
         event.preventDefault();
         fetch();
     }

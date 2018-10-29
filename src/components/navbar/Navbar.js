@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "./Navbar.css";
+import Login from './Login';
 
 class Navbar extends Component {
   render() {
@@ -25,6 +26,14 @@ class Navbar extends Component {
 
             <button className="btn btn-primary"><i className="fas fa-plus"></i> Add new</button>
           </div>
+
+          <div className="pull-right">
+            <button className="btn-sm" data-toggle="modal" data-target="#sign-in">Sign in</button>
+            <span></span>
+            <button className="btn-sm" data-toggle="modal" data-target="#register">Register</button>
+          </div>
+
+          <Login></Login>
         </nav>
       </div>
     );

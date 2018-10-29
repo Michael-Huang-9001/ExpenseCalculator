@@ -19,10 +19,8 @@ function auth(req, res, next) {
     if (token.id) {
         console.log(token);
         req.owner = token.id;
-        next();
-    } else {
-        res.json({ msg: "You are not logged in." })
     }
+    next();
 }
 
 /**
@@ -35,11 +33,15 @@ router.get("/api", function (req, res) {
 /**
  * Grabs entries.
  */
-router.get("/api/test", auth, function (req, res) {
-    Entries.find({ owner: req.owner })
-        .then((entry) => {
-            res.json(entry);
-        });
+router.get("/api/entries", auth, function (req, res) {
+    if (!req.owner) {
+        res.json([]);
+    } else {
+        Entries.find({ owner: req.owner })
+            .then((entry) => {
+                res.json(entry);
+            });
+    }
     // res.json([{
     //     entry_name: "AMD Sapphire Radeon RX 580 8GB Special Edition Graphics Card",
     //     cost: 189.99,
@@ -57,19 +59,44 @@ router.get("/api/test", auth, function (req, res) {
 });
 
 /**
- * For posting to an existing entry
+ * For posting to create a new entry
  */
-router.post('/api/test', auth, function (req, res) {
-    Entries.create({
-        owner: req.owner,
-        entry_name: "AMD Sapphire Radeon RX 580 8GB Special Edition Graphics Card",
-        cost: 189.99,
-        date: "October 13, 2018",
-        category: '',
-        notes: 'Original price = 229.99, saved 15% using eBay coupon, used ~60 worth of eBay gift card.'
-    }).then((entry) => {
-        res.json(entry);
-    });
+router.post('/api/entries/new', auth, function (req, res) {
+    if (!req.owner) {
+        res.json({ msg: "You are not logged in." });
+    } else {
+        Entries.create({
+            owner: req.owner,
+            entry_name: req.entry_name,
+            cost: req.cost,
+            date: req.date,
+            category: req.category,
+            notes: req.notes
+        }).then((entry) => {
+            res.json(entry);
+        });
+    }
+    //res.json({ msg: "Not yet implemented." });
+});
+
+/**
+ * For posting to update an existing entry
+ */
+router.post('/api/entries/update', auth, function (req, res) {
+    if (!req.owner) {
+        res.json({ msg: "You are not logged in." });
+    } else {
+        Entries.updateOne({
+            owner: req.owner,
+            entry_name: req.entry_name,
+            cost: req.cost,
+            date: req.date,
+            category: req.category,
+            notes: req.notes
+        }).then((entry) => {
+            res.json(entry);
+        });
+    }
     //res.json({ msg: "Not yet implemented." });
 });
 
@@ -147,6 +174,7 @@ router.post('/api/register', function (req, res) {
  * For authenticating users and log in.
  */
 router.post('/api/login', function (req, res) {
+    // console.log('post attempted');
     if (req.body) {
         if (req.body.login && req.body.password) {
             let user_cred = {};
@@ -170,10 +198,10 @@ router.post('/api/login', function (req, res) {
                                 // Generate JWT
                                 let token = jwt.sign({ id: result._id });
 
-                                res.json({ msg: "We are good. You are logged in.", token: token });
+                                res.json({ msg: "We are good. You are logged in.", token: token, success: true });
                                 //res.json({ msg: "We are good. You are logged in." })
                             } else {
-                                res.json({ msg: "Invalid username or password." })
+                                res.json({ msg: "Invalid username or password."});
                             }
                         });
                     }

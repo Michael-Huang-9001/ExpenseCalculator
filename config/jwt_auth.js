@@ -8,14 +8,14 @@ const public_key = fs.readFileSync(__dirname + '/public.key');
 // readFileSync needs an absolute path so __dirname is needed.
 
 function sign(payload) {
-    return jwt.sign(payload, private_key, { algorithm: "RS256" });
+    return jwt.sign(payload, private_key, { algorithm: "RS256", expiresIn: 60 * 60 * 24 }); // 24 hours
 }
 
 function verify(token) {
     return jwt.verify(token, public_key, function (err, decoded) {
         if (err) {
             console.log(err.message);
-            return {};
+            return {error: err.message};
         }
         return decoded;
     });
