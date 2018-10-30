@@ -5,24 +5,64 @@ import 'react-datepicker/dist/react-datepicker.css';
 import moment from 'moment';
 import './Modal.css';
 
-class Modal extends React.Component {
+class Modal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            date: moment(this.props.data.date)
+            id: this.props.data.id,
+            date: moment(this.props.data.date),
+            category: this.props.data.category,
+            entry_name: this.props.data.entry_name
         };
-        this.handleChange = this.handleChange.bind(this);
     }
 
-    handleChange(date) {
+    handleDateChange(date) {
         this.setState({
             date: date
         });
     }
 
-    handleSUbmit(event) {
+    handleCategoryChange = (event) => {
         event.preventDefault();
-        fetch();
+        this.setState({ category: event.target.value })
+    }
+
+    handleEntryNameChange = (event) => {
+        event.preventDefault();
+        this.setState({ entry_name: event.target.value })
+    }
+
+    handleCostChange = (event) => {
+        event.preventDefault();
+        this.setState({ cost: event.target.value })
+    }
+
+    handleNotesChange = (event) => {
+        event.preventDefault();
+        this.setState({ notes: event.target.value })
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+
+        let data = {
+            entry_name: this.state.entry_name,
+            cost: this.state.cost,
+            date: this.state.date,
+            category: this.state.category,
+            notes: this.state.notes
+        }
+
+        fetch(`/api/entries/update`, {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                'Accept': 'application/json',
+                "Content-Type": "application/json",
+                "token": localStorage.getItem("token")
+            },
+            credentials: "same-origin"
+        });
     }
 
     render() {
@@ -39,14 +79,13 @@ class Modal extends React.Component {
                         <div className="modal-body input-group-sm">
                             <form method="POST"
                                 onSubmit={event => this.handleSubmit(event)}
-
                             >
                                 <b>Date</b>
                                 <DatePicker
                                     className="form-control"
                                     todayButton={"Today"}
                                     selected={this.state.date}
-                                    onChange={this.handleChange}
+                                    onChange={this.handleDateChange}
                                     dateFormat="LL">
                                 </DatePicker>
 
@@ -63,10 +102,8 @@ class Modal extends React.Component {
                                 <b>Expense</b>
                                 <input
                                     type="text" className="form-control"
-                                    defaultValue={this.props.data.entry_name}
-                                    onChange={(e) => {
-
-                                    }}>
+                                    value={this.props.data.entry_name}
+                                    onChange={this.handleEntryNameChange}>
                                 </input>
 
                                 <br />
@@ -75,7 +112,8 @@ class Modal extends React.Component {
                                 <input className="form-control"
                                     type="number"
                                     step="0.01"
-                                    defaultValue={this.props.data.cost}>
+                                    value={this.props.data.cost}
+                                    onChange={this.handleCostChange}>
                                 </input>
 
                                 <br />
@@ -84,8 +122,9 @@ class Modal extends React.Component {
                                 <textarea
                                     className="form-control"
                                     rows="5" cols="10"
-                                    placeholder="No notes">
-                                    {this.props.data.notes}
+                                    placeholder="No notes"
+                                    value={this.props.data.notes}
+                                    onChange={this.handleNotesChange}>
                                 </textarea>
 
                                 <br />

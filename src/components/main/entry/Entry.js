@@ -1,18 +1,19 @@
 import React, { Component } from "react";
 import "./Entry.css";
-import DatePicker from 'react-datepicker';
+// import DatePicker from 'react-datepicker';
 import Modal from './Modal';
 
 class Entry extends Component {
   constructor() {
     super();
-    this.state = { collapsed: false, editing: false };
+    this.state = {
+      collapsed: false
+    };
   }
 
   // Make a variable an arrow function
   click = () => {
-    let collapsed = !this.state.collapsed;
-    this.setState({ collapsed: collapsed });
+    this.setState({ collapsed: !this.state.collapsed });
     //console.log(`Component ${this.props.data.entry_name} is ${collapsed}`);
   }
 
@@ -21,16 +22,16 @@ class Entry extends Component {
     let category = this.props.data.category ? this.props.data.category : 'Unspecified';
     return (
       <React.Fragment>
-        <tr data-toggle="collapse" data-target={`#entry_${this.props.entry_id}`} className="tr-hover">
+        <tr data-toggle="collapse" data-target={`#entry_${this.props.entry_index}`} className="tr-hover">
           <td>{this.props.data.entry_name}</td>
           <td>{category}</td>
           <td>{this.props.data.cost}</td>
         </tr>
         <tr>
           <td colSpan="3" className="details">
-            <div id={`entry_${this.props.entry_id}`} className="collapse">
+            <div id={`entry_${this.props.entry_index}`} className="collapse">
               <br />
-              <button className="btn-sm" data-toggle="modal" data-target={`#entry_modal_${this.props.entry_id}`}>Edit</button>
+              <button className="btn-sm" data-toggle="modal" data-target={`#entry_modal_${this.props.entry_index}`}>Edit</button>
               <b>Date:</b> {this.props.data.date}
               <br />
               <b>Category:</b> {category}
@@ -43,8 +44,8 @@ class Entry extends Component {
               <br />
               <br />
 
-              <Modal entry_id={this.props.entry_id} key={this.props.entry_id} data={this.props.data}></Modal>
-              
+              <Modal entry_index={this.props.entry_index} key={this.props.entry_index} data={this.props.data}></Modal>
+
             </div>
           </td>
         </tr>

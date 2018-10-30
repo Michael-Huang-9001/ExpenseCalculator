@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import 'bootstrap';
 import './Login.css';
 
-class Login extends React.Component {
+class Login extends Component {
     constructor() {
         super();
         this.state = {
@@ -44,7 +44,10 @@ class Login extends React.Component {
             if (!data.success) {
                 alert(data.msg);
             } else {
-                let token = data.token;
+                // Store token in localstorage
+                localStorage.setItem("token", `${data.token}`);
+                this.props.navbar_logged_in(true);
+                window.location.reload();
             }
         }).catch((error) => {
             console.log(error);
@@ -64,19 +67,22 @@ class Login extends React.Component {
                         </div>
                         <div className="modal-body input-group-sm">
                             <form method="POST" onSubmit={this.handleSubmit}>
-                                <input id="login_login" name="login_login" type="text"
+
+                                <input required name="login_login" type="text"
                                     className="form-control" placeholder="Username/Email"
                                     value={this.state.login} onChange={this.handleLoginChange}
                                 />
 
-                                <input id="login_password" name="login_password" type="password"
+                                <br />
+
+                                <input required name="login_password" type="password"
                                     className="form-control" placeholder="Password"
                                     value={this.state.password} onChange={this.handlePasswordChange}
                                 />
-                                <br />
-                                <button type="submit">Sign in</button>
-                            </form>
 
+                                <br />
+                                <button type="submit" className="btn btn-primary">Sign in</button>
+                            </form>
                         </div>
                     </div>
                 </div>

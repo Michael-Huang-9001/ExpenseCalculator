@@ -6,3 +6,11 @@ button {
     /* background-color: chartreuse !important; */
     text-align: center !important;
 }
+
+.btn {
+    margin-left: 10px;
+}
+
+.hidden {
+    display: none !important;
+}

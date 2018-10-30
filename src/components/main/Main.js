@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import "./Main.css";
 import Entry from "./entry/Entry"
-import 'bootstrap'; // NEED TO IMPORT THIS LOCALL IF YOU ARE GOING TO USE BOOTSTRAP
+import 'bootstrap'; // NEED TO IMPORT THIS LOCALLY IF YOU ARE GOING TO USE BOOTSTRAP
 
 class Main extends Component {
 
@@ -13,11 +13,19 @@ class Main extends Component {
 
   // Best place to fetch as componentWillMount may render empty data waiting for callback
   componentDidMount() {
-    fetch(`/api/test`)
-      .then(res => res.json())
-      .then(json => this.setState({ entries: json, entries_loaded: true }),
-        error => this.setState({ entries_loaded: true, error })
-      );
+    //console.log(localStorage.getItem("token"));
+    fetch(`/api/entries`, {
+      method: "GET",
+      headers: {
+        token: localStorage.getItem("token")
+      }
+    }).then((res) => {
+      return res.json();
+    }).then((json) => {
+      // entries is a list of jsons
+      this.setState({ entries: json, entries_loaded: true });
+      console.log(this.state.entries);
+    });
   }
 
   calc_total() {
@@ -46,7 +54,7 @@ class Main extends Component {
           <tbody>
             {this.state.entries.map((entry, index) => (
               // Makes the entry here for every element
-              <Entry key={index} entry_id={index} data={entry}></Entry>
+              <Entry key={index} entry_index={index} data={entry}></Entry>
             ))}
           </tbody>
         </table>

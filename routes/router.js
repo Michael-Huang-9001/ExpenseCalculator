@@ -16,7 +16,7 @@ const jwt = require('../config/jwt_auth');
 function auth(req, res, next) {
     let token = jwt.verify(req.headers.token);
     if (token.id) {
-        console.log(token);
+        //console.log(token);
         req.owner = token.id;
     }
     next();
@@ -33,8 +33,10 @@ router.get("/api", function (req, res) {
  * Grabs entries.
  */
 router.get("/api/entries", auth, function (req, res) {
+    //console.log(`GET @ /api/entries attempted.`);
     if (!req.owner) {
         res.json([]);
+        //console.log("no owner")
     } else {
         Entries.find({ owner: req.owner })
             .then((entry) => {
