@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const email_validator = require('email-validator');
+const moment = require('moment');
 
 // MongoDB models
 const Entries = require('../models/entry');
@@ -18,6 +19,8 @@ function auth(req, res, next) {
     if (token.id) {
         //console.log(token);
         req.owner = token.id;
+    } else {
+        console.log(`${req.path}: ${token.error}`)
     }
     next();
 }
@@ -33,9 +36,9 @@ router.get("/api", function (req, res) {
  * Grabs entries.
  */
 router.get("/api/entries", auth, function (req, res) {
-    //console.log(`GET @ /api/entries attempted.`);
+    // console.log(`GET @ /api/entries attempted.`);
     if (!req.owner) {
-        res.json([]);
+        res.status(403).json([]);
         //console.log("no owner")
     } else {
         Entries.find({ owner: req.owner })
@@ -59,23 +62,60 @@ router.get("/api/entries", auth, function (req, res) {
     // }]);
 });
 
+function validate_entry(body) {
+    let error_message = '';
+    if (!body.entry_name) {
+        error_message += 'Entry name is required.\n';
+    }
+
+    if (!body.cost) {
+        error_message += 'Cost is required.\n';
+    } else if (isNaN(body.cost)) {
+        error_message += 'Cost entered is not a number.\n';
+    }
+
+    if (!body.date) {
+        error_message += 'Date is required.\n';
+    }
+
+    return error_message;
+}
+
 /**
  * For posting to create a new entry
  */
 router.post('/api/entries/new', auth, function (req, res) {
+    // console.log(`POST @ /api/entries/new attempted.`);
     if (!req.owner) {
         res.json({ msg: "You are not logged in." });
     } else {
-        Entries.create({
-            owner: req.owner,
-            entry_name: req.entry_name,
-            cost: req.cost,
-            date: req.date,
-            category: req.category,
-            notes: req.notes
-        }).then((entry) => {
-            res.json(entry);
-        });
+        let msg = validate_entry(req.body);
+
+        if (!msg) {
+            Entries.create({
+                owner: req.owner,
+                entry_name: req.body.entry_name,
+                cost: req.body.cost,
+                date: req.body.date,
+                category: req.body.category,
+                notes: req.body.notes
+            }).then((entry) => {
+                res.json(entry);
+            });
+        } else {
+            res.json({ msg: msg });
+        }
+
+        // Entries.create({
+        //     owner: req.owner,
+        //     entry_name: req.entry_name,
+        //     cost: req.cost,
+        //     date: req.date,
+        //     category: req.category,
+        //     notes: req.notes
+        // }).then((entry) => {
+        //     res.json(entry);
+        // });
     }
     //res.json({ msg: "Not yet implemented." });
 });
@@ -84,19 +124,28 @@ router.post('/api/entries/new', auth, function (req, res) {
  * For posting to update an existing entry
  */
 router.post('/api/entries/update', auth, function (req, res) {
+    console.log(`POST @ /api/entries/update attempted.`);
     if (!req.owner) {
         res.json({ msg: "You are not logged in." });
     } else {
-        Entries.updateOne({
-            owner: req.owner,
-            entry_name: req.entry_name,
-            cost: req.cost,
-            date: req.date,
-            category: req.category,
-            notes: req.notes
-        }).then((entry) => {
-            res.json(entry);
-        });
+        let msg = validate_entry(req.body);
+
+        if (!msg) {
+            console.log(req.body);
+
+            // Entries.findByIdAndUpdate({
+            //     _id: req.body._id,
+            //     entry_name: req.body.entry_name,
+            //     cost: req.body.cost,
+            //     date: req.body.date,
+            //     category: req.body.category,
+            //     notes: req.body.notes
+            // }).then((entry) => {
+            //     res.json(entry);
+            // });
+        } else {
+            res.json({ msg: msg });
+        }
     }
     //res.json({ msg: "Not yet implemented." });
 });
@@ -138,6 +187,8 @@ function validate_registration(body) {
  * For registering new users.
  */
 router.post('/api/register', function (req, res) {
+    //console.log(`POST @ /api/register attempted.`);
+
     if (req.body) {
         let error_message = validate_registration(req.body);
 
@@ -149,7 +200,7 @@ router.post('/api/register', function (req, res) {
                 } else {
                     User.create({ username: req.body.username, email: req.body.email, password: { hash: password_hash } })
                         .then((result) => {
-                            res.status(200).json({ msg: "User created." });
+                            res.status(200).json({ msg: "User created.", success: true });
                         })
                         .catch((error) => {
                             // Dupe user
@@ -159,7 +210,7 @@ router.post('/api/register', function (req, res) {
                                 res.json({ msg: msg });
                                 console.log(`Duplicate user, offender: ${offending_field}`);
                             } else {
-                                res.json({ msg: "Something went wrong." });
+                                res.json({ msg: "Something else went wrong." });
                                 console.log(error);
                             }
                         })
@@ -168,6 +219,8 @@ router.post('/api/register', function (req, res) {
         } else {
             res.json({ msg: error_message });
         }
+    } else {
+        res.status(500).json({ msg: "No body detected." });
     }
 });
 
@@ -202,7 +255,7 @@ router.post('/api/login', function (req, res) {
                                 res.json({ msg: "We are good. You are logged in.", token: token, success: true });
                                 //res.json({ msg: "We are good. You are logged in." })
                             } else {
-                                res.json({ msg: "Invalid username or password."});
+                                res.json({ msg: "Invalid username or password." });
                             }
                         });
                     }

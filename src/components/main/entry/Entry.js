@@ -4,8 +4,8 @@ import "./Entry.css";
 import Modal from './Modal';
 
 class Entry extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       collapsed: false
     };
@@ -14,6 +14,7 @@ class Entry extends Component {
   // Make a variable an arrow function
   click = () => {
     this.setState({ collapsed: !this.state.collapsed });
+    console.log(this.props);
     //console.log(`Component ${this.props.data.entry_name} is ${collapsed}`);
   }
 
@@ -22,7 +23,7 @@ class Entry extends Component {
     let category = this.props.data.category ? this.props.data.category : 'Unspecified';
     return (
       <React.Fragment>
-        <tr data-toggle="collapse" data-target={`#entry_${this.props.entry_index}`} className="tr-hover">
+        <tr data-toggle="collapse" onClick={this.click} data-target={`#entry_${this.props.entry_index}`} className="tr-hover">
           <td>{this.props.data.entry_name}</td>
           <td>{category}</td>
           <td>{this.props.data.cost}</td>
@@ -32,11 +33,11 @@ class Entry extends Component {
             <div id={`entry_${this.props.entry_index}`} className="collapse">
               <br />
               <button className="btn-sm" data-toggle="modal" data-target={`#entry_modal_${this.props.entry_index}`}>Edit</button>
-              <b>Date:</b> {this.props.data.date}
+              <b>Date:</b> {this.props.data.date.substring(0, 10)}
               <br />
               <b>Category:</b> {category}
               <br />
-              <b>Expense:</b> {this.props.data.entry_name}
+              <b>Entry Name:</b> {this.props.data.entry_name}
               <br />
               <b>Cost:</b> {this.props.data.cost}
               <br />

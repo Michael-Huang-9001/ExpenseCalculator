@@ -3,22 +3,20 @@ import DatePicker from 'react-datepicker';
 import 'bootstrap';
 import 'react-datepicker/dist/react-datepicker.css';
 import moment from 'moment';
-import './Modal.css';
 
-class Modal extends Component {
-    constructor(props) {
-        super(props);
+class New extends Component {
+    constructor() {
+        super();
         this.state = {
-            id: this.props.data.id,
-            date: moment(this.props.data.date),
-            category: this.props.data.category,
-            entry_name: this.props.data.entry_name,
-            cost: this.props.data.cost,
-            notes: this.props.data.notes
+            date: moment(),
+            category: '',
+            entry_name: '',
+            cost: '',
+            notes: ''
         };
     }
 
-    handleDateChange(date) {
+    handleDateChange = (date) => {
         this.setState({
             date: date
         });
@@ -45,10 +43,10 @@ class Modal extends Component {
     }
 
     handleSubmit = (event) => {
+        console.log(this.state);
         event.preventDefault();
 
         let data = {
-            _id: this.props.data._id,
             entry_name: this.state.entry_name,
             cost: this.state.cost,
             date: this.state.date,
@@ -56,7 +54,7 @@ class Modal extends Component {
             notes: this.state.notes
         }
 
-        fetch(`/api/entries/update`, {
+        fetch(`/api/entries/new`, {
             method: "POST",
             body: JSON.stringify(data),
             headers: {
@@ -66,29 +64,24 @@ class Modal extends Component {
             },
             credentials: "same-origin"
         }).then((res) => {
-            return res.json();
-        }).then(json => {
-            console.log(json);
-        }).catch((error) => {
-            console.log(error);
+            console.log(res.json());
         });
     }
 
     render() {
         return (
-            <div className="modal fade" id={`entry_modal_${this.props.entry_index}`} role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div className="modal fade" id="new_entry" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered" role="document">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h5 className="modal-title">{this.props.data.entry_name}</h5>
+                            <h5 className="modal-title">New Entry</h5>
                             <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div className="modal-body input-group-sm">
-                            <form method="POST"
-                                onSubmit={this.handleSubmit}
-                            >
+                            <form method="POST" onSubmit={this.handleSubmit}>
+
                                 <b>Date</b>
                                 <DatePicker
                                     className="form-control"
@@ -109,19 +102,17 @@ class Modal extends Component {
                                 <br />
 
                                 <b>Entry Name</b>
-                                <input
+                                <input required
                                     type="text" className="form-control"
-                                    defaultValue={this.props.data.entry_name}
                                     onChange={this.handleEntryNameChange}>
                                 </input>
 
                                 <br />
 
                                 <b>Cost</b>
-                                <input className="form-control"
+                                <input className="form-control" required
                                     type="number"
                                     step="0.01"
-                                    defaultValue={this.props.data.cost}
                                     onChange={this.handleCostChange}>
                                 </input>
 
@@ -132,12 +123,10 @@ class Modal extends Component {
                                     className="form-control"
                                     rows="5" cols="10"
                                     placeholder="No notes"
-                                    defaultValue={this.props.data.notes}
                                     onChange={this.handleNotesChange}>
                                 </textarea>
 
                                 <br />
-
                                 <div className="modal-footer">
                                     <button type="submit" className="btn btn-primary">Save</button>
                                     <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -146,9 +135,9 @@ class Modal extends Component {
                         </div>
                     </div>
                 </div>
-            </div >
+            </div>
         )
     }
 }
 
-export default Modal;
+export default New;

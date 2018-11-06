@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import "./Navbar.css";
 import Login from './Login';
+import Register from './Register';
+import New from './New';
 
 class Navbar extends Component {
   constructor() {
@@ -20,6 +22,12 @@ class Navbar extends Component {
     localStorage.removeItem("token");
     alert(`Logged out successfully.\nEl Psy Kongroo.`);
     window.location.reload();
+  }
+
+  componentWillMount() {
+    if (localStorage.getItem("token")) {
+      this.setState({ logged_in: true });
+    }
   }
 
   componentDidMount() {
@@ -49,7 +57,7 @@ class Navbar extends Component {
               </li>
             </ul> */}
 
-            <button className="btn btn-primary"><i className="fas fa-plus"></i> Add new</button>
+            <button className="btn btn-primary" data-toggle="modal" data-target="#new_entry"><i className="fas fa-plus"></i> Add new</button>
           </div>
 
           <div className={`pull-right ${this.state.logged_in ? 'hidden' : ''}`}>
@@ -63,6 +71,8 @@ class Navbar extends Component {
           </div>
 
           <Login navbar_logged_in={this.navbar_logged_in}></Login>
+          <Register></Register>
+          <New></New>
         </nav>
       </div>
     );

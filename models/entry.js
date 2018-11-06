@@ -3,7 +3,6 @@ let mongoose = require("mongoose");
 let entry_schema = new mongoose.Schema({
   owner: {
     type: String,
-    unique: true,
     required: true
   },
   entry_name: {

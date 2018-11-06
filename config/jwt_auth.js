@@ -13,8 +13,7 @@ function sign(payload) {
 function verify(token) {
     return jwt.verify(token, public_key, function (err, decoded) {
         if (err) {
-            console.log(err.message);
-            return {error: err.message};
+            return { error: err.message };
         }
         return decoded;
     });
