@@ -7,45 +7,53 @@ class Entry extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      collapsed: false
+      _id: this.props.data._id,
+      date: this.props.data.date,
+      category: this.props.data.category,
+      entry_name: this.props.data.entry_name,
+      cost: this.props.data.cost,
+      notes: this.props.data.notes
     };
+  }
+
+  update = (payload) => {
+    this.setState(payload);
   }
 
   // Make a variable an arrow function
   click = () => {
     this.setState({ collapsed: !this.state.collapsed });
-    console.log(this.props);
     //console.log(`Component ${this.props.data.entry_name} is ${collapsed}`);
   }
 
   // Pass in here
   render() {
-    let category = this.props.data.category ? this.props.data.category : 'Unspecified';
+    let category = this.state.category ? this.state.category : 'Unspecified';
     return (
       <React.Fragment>
         <tr data-toggle="collapse" onClick={this.click} data-target={`#entry_${this.props.entry_index}`} className="tr-hover">
-          <td>{this.props.data.entry_name}</td>
+          <td>{this.state.entry_name}</td>
           <td>{category}</td>
-          <td>{this.props.data.cost}</td>
+          <td>{this.state.cost}</td>
         </tr>
         <tr>
           <td colSpan="3" className="details">
             <div id={`entry_${this.props.entry_index}`} className="collapse">
               <br />
               <button className="btn-sm" data-toggle="modal" data-target={`#entry_modal_${this.props.entry_index}`}>Edit</button>
-              <b>Date:</b> {this.props.data.date.substring(0, 10)}
+              <b>Date:</b> {this.state.date.substring(0, 10)}
               <br />
               <b>Category:</b> {category}
               <br />
-              <b>Entry Name:</b> {this.props.data.entry_name}
+              <b>Entry Name:</b> {this.state.entry_name}
               <br />
-              <b>Cost:</b> {this.props.data.cost}
+              <b>Cost:</b> {this.state.cost}
               <br />
-              <b>Notes:</b><br />{this.props.data.notes}
+              <b>Notes:</b><br />{this.state.notes}
               <br />
               <br />
 
-              <Modal entry_index={this.props.entry_index} key={this.props.entry_index} data={this.props.data}></Modal>
+              <Modal entry_index={this.props.entry_index} update={this.update} key={this.props.entry_index} data={this.state}></Modal>
 
             </div>
           </td>

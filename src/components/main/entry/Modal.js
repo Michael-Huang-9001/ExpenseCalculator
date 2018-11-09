@@ -9,7 +9,7 @@ class Modal extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            id: this.props.data.id,
+            _id: this.props.data._id,
             date: moment(this.props.data.date),
             category: this.props.data.category,
             entry_name: this.props.data.entry_name,
@@ -18,7 +18,7 @@ class Modal extends Component {
         };
     }
 
-    handleDateChange(date) {
+    handleDateChange = (date) => {
         this.setState({
             date: date
         });
@@ -69,6 +69,22 @@ class Modal extends Component {
             return res.json();
         }).then(json => {
             console.log(json);
+
+            let new_state = {
+                _id: json._id,
+                category: json.category,
+                entry_name: json.entry_name,
+                cost: json.cost,
+                notes: json.notes
+            }
+            this.setState(new_state);
+            this.setState({date: moment(json.date)});
+
+            // For entry row
+            new_state.date = json.date;
+            this.props.update(new_state);
+            
+            document.getElementById(`close_modal_${this.props.entry_index}`).click();
         }).catch((error) => {
             console.log(error);
         });
@@ -139,8 +155,8 @@ class Modal extends Component {
                                 <br />
 
                                 <div className="modal-footer">
-                                    <button type="submit" className="btn btn-primary">Save</button>
-                                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" className="btn btn-primary">Update</button>
+                                    <button id={`close_modal_${this.props.entry_index}`} type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                                 </div>
                             </form>
                         </div>

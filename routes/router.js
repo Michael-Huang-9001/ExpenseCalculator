@@ -68,7 +68,7 @@ function validate_entry(body) {
         error_message += 'Entry name is required.\n';
     }
 
-    if (!body.cost) {
+    if (!body.cost && body.cost !== 0) {
         error_message += 'Cost is required.\n';
     } else if (isNaN(body.cost)) {
         error_message += 'Cost entered is not a number.\n';
@@ -131,18 +131,24 @@ router.post('/api/entries/update', auth, function (req, res) {
         let msg = validate_entry(req.body);
 
         if (!msg) {
-            console.log(req.body);
+            //console.log(req.body);
 
-            // Entries.findByIdAndUpdate({
-            //     _id: req.body._id,
-            //     entry_name: req.body.entry_name,
-            //     cost: req.body.cost,
-            //     date: req.body.date,
-            //     category: req.body.category,
-            //     notes: req.body.notes
-            // }).then((entry) => {
-            //     res.json(entry);
-            // });
+            Entries.findById(req.body._id, (error, entry) => {
+                if (error) {
+                    res.json({msg: "Something went wrong."});
+                    console.log(error);
+                } else {
+                    entry.entry_name = req.body.entry_name;
+                    entry.cost = req.body.cost;
+                    entry.date = req.body.date;
+                    entry.category = req.body.category;
+                    entry.notes = req.body.notes;
+
+                    entry.save(() => {
+                        res.json(entry);
+                    });
+                }
+            });
         } else {
             res.json({ msg: msg });
         }

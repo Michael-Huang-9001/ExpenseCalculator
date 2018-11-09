@@ -43,7 +43,6 @@ class New extends Component {
     }
 
     handleSubmit = (event) => {
-        console.log(this.state);
         event.preventDefault();
 
         let data = {
@@ -64,7 +63,15 @@ class New extends Component {
             },
             credentials: "same-origin"
         }).then((res) => {
-            console.log(res.json());
+            return res.json();
+        }).then((json) => {
+            //console.log(json);
+            if (!json.success) {
+                alert("Please create an account or log in to save your entries.");
+            }
+            document.getElementById("close-create").click();
+        }).catch((error) => {
+            console.log(error);
         });
     }
 
@@ -128,8 +135,8 @@ class New extends Component {
 
                                 <br />
                                 <div className="modal-footer">
-                                    <button type="submit" className="btn btn-primary">Save</button>
-                                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                                    <button type="submit" className="btn btn-primary">Create</button>
+                                    <button id="close-create" type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                                 </div>
                             </form>
                         </div>
