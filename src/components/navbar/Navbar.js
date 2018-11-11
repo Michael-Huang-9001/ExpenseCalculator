@@ -57,7 +57,9 @@ class Navbar extends Component {
               </li>
             </ul> */}
 
-            <button className="btn btn-primary" data-toggle="modal" data-target="#new_entry"><i className="fas fa-plus"></i> Add new</button>
+            {/* <button className="btn btn-primary" data-toggle="modal" data-target="#new_entry">
+              <i className="fas fa-plus"></i> Add new
+            </button> */}
           </div>
 
           <div className={`pull-right ${this.state.logged_in ? 'hidden' : ''}`}>
@@ -72,7 +74,7 @@ class Navbar extends Component {
 
           <Login navbar_logged_in={this.navbar_logged_in}></Login>
           <Register></Register>
-          <New></New>
+          {/* <New></New> */}
         </nav>
       </div>
     );

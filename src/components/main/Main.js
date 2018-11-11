@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "./Main.css";
 import Entry from "./entry/Entry"
 import 'bootstrap'; // NEED TO IMPORT THIS LOCALLY IF YOU ARE GOING TO USE BOOTSTRAP
+import New from './New';
 
 class Main extends Component {
 
@@ -39,8 +40,10 @@ class Main extends Component {
   addEntry = (entry) => {
     let list = this.state.entries;
     entry.entry_index = list.length;
+    console.log(entry);
     list.push(entry);
     this.setState({ entries: list });
+    console.log(this.state.entries);
   }
 
   // Used to calc total expense
@@ -56,8 +59,21 @@ class Main extends Component {
     return (
       <div className="Main col-auto">
         <img src="https://i.stack.imgur.com/L8d0H.jpg" alt="" className="img-fluid"></img>
-        <br />
-        <p style={{ textAlign: "right" }}><b>Total expenditure: ${this.calc_total()}</b></p>
+
+
+        <hr />
+        <div className="row" style={{ textAlign: "center" }}>
+          <div className="col-5">
+            <button className="btn-xs btn-primary" style={{ float: "left" }} data-toggle="modal" data-target="#new_entry">
+              <i className="fas fa-plus"></i> Add new
+            </button>
+          </div>
+          <div className="col-5" style={{float: "right"}}>
+            <p style={{ textAlign: "right", float: "right" }}><b>Total expenditure: ${this.calc_total()}</b></p>
+          </div>
+        </div>
+
+        <New addEntry={this.addEntry}></New>
 
         <table className="table">
           <thead>
@@ -74,7 +90,6 @@ class Main extends Component {
             ))}
           </tbody>
         </table>
-
       </div>
     );
   }
