@@ -92,6 +92,8 @@ class New extends Component {
                             <form method="POST" onSubmit={this.handleSubmit}>
 
                                 <b>Date</b>
+
+                                <br />
                                 <DatePicker
                                     className="form-control"
                                     todayButton={"Today"}
@@ -100,6 +102,7 @@ class New extends Component {
                                     dateFormat="LL">
                                 </DatePicker>
 
+                                <br />
                                 <br />
 
                                 <b>Category</b>

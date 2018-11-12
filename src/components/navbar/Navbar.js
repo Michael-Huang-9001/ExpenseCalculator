@@ -27,12 +27,16 @@ class Navbar extends Component {
   componentWillMount() {
     if (localStorage.getItem("token")) {
       this.setState({ logged_in: true });
+    } else {
+      this.setState({ logged_in: false });
     }
   }
 
   componentDidMount() {
     if (localStorage.getItem("token")) {
       this.setState({ logged_in: true });
+    } else {
+      this.setState({ logged_in: false });
     }
   }
 

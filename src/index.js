@@ -4,14 +4,22 @@ import './index.css';
 import Navbar from './components/navbar/Navbar';
 import Container from './components/container/Container'
 import registerServiceWorker from './registerServiceWorker';
-import index from './js/index';
 
+class App extends React.Component {
+    render() {
+        return (
+            <React.Fragment>
+                <Navbar />
+                <Container />
+            </React.Fragment>
+        )
+    }
+}
 
 ReactDOM.render(
-    <React.Fragment>
-        <Navbar />
-        <Container />
-    </React.Fragment>,
+    <App />,
     document.getElementById('root')
 );
 registerServiceWorker();
+
+export default App;

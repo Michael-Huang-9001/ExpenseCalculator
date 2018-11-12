@@ -3,6 +3,7 @@ import "./Main.css";
 import Entry from "./entry/Entry"
 import 'bootstrap'; // NEED TO IMPORT THIS LOCALLY IF YOU ARE GOING TO USE BOOTSTRAP
 import New from './New';
+import Chart from './chart/Chart';
 
 class Main extends Component {
 
@@ -33,17 +34,21 @@ class Main extends Component {
       }).then((json) => {
         // entries is a list of jsons
         this.setState({ entries: json });
+        this.refreshChart();
       });
     }
+  }
+
+  refreshChart = () => {
+    this.setState({ refreshChart: !this.state.refreshChart });
   }
 
   addEntry = (entry) => {
     let list = this.state.entries;
     entry.entry_index = list.length;
-    console.log(entry);
     list.push(entry);
     this.setState({ entries: list });
-    console.log(this.state.entries);
+    // console.log(this.state.entries);
   }
 
   // Used to calc total expense
@@ -58,8 +63,9 @@ class Main extends Component {
   render() {
     return (
       <div className="Main col-auto">
-        <img src="https://i.stack.imgur.com/L8d0H.jpg" alt="" className="img-fluid"></img>
+        {/* <img src="https://i.stack.imgur.com/L8d0H.jpg" alt="" className="img-fluid"></img> */}
 
+        <Chart entries={this.state.entries} refresh={this.refreshChart}></Chart>
 
         <hr />
         <div className="row" style={{ textAlign: "center" }}>
@@ -68,7 +74,7 @@ class Main extends Component {
               <i className="fas fa-plus"></i> Add new
             </button>
           </div>
-          <div className="col-5" style={{float: "right"}}>
+          <div className="col-5" style={{ float: "right" }}>
             <p style={{ textAlign: "right", float: "right" }}><b>Total expenditure: ${this.calc_total()}</b></p>
           </div>
         </div>

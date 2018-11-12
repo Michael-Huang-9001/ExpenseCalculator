@@ -78,12 +78,12 @@ class Modal extends Component {
                 notes: json.notes
             }
             this.setState(new_state);
-            this.setState({date: moment(json.date)});
+            this.setState({ date: moment(json.date) });
 
             // For entry row
             new_state.date = json.date;
             this.props.update(new_state);
-            
+
             document.getElementById(`close_modal_${this.props.entry_index}`).click();
         }).catch((error) => {
             console.log(error);
@@ -106,6 +106,8 @@ class Modal extends Component {
                                 onSubmit={this.handleSubmit}
                             >
                                 <b>Date</b>
+                                <br />
+
                                 <DatePicker
                                     className="form-control"
                                     todayButton={"Today"}
@@ -114,6 +116,7 @@ class Modal extends Component {
                                     dateFormat="LL">
                                 </DatePicker>
 
+                                <br />
                                 <br />
 
                                 <b>Category</b>
