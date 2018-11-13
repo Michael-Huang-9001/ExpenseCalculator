@@ -28,12 +28,11 @@ class Entry extends Component {
 
   // Pass in here
   render() {
-    let category = this.state.category ? this.state.category : 'Unspecified';
     return (
       <React.Fragment>
         <tr data-toggle="collapse" onClick={this.click} data-target={`#entry_${this.props.entry_index}`} className="tr-hover">
           <td>{this.state.entry_name}</td>
-          <td>{category}</td>
+          <td>{this.state.date.substring(0, 10)}</td>
           <td>{this.state.cost}</td>
         </tr>
         <tr>
@@ -43,7 +42,7 @@ class Entry extends Component {
               <button className="btn-sm" data-toggle="modal" data-target={`#entry_modal_${this.props.entry_index}`}>Edit</button>
               <b>Date:</b> {this.state.date.substring(0, 10)}
               <br />
-              <b>Category:</b> {category}
+              <b>Category:</b> {this.state.category}
               <br />
               <b>Entry Name:</b> {this.state.entry_name}
               <br />

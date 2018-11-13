@@ -32,9 +32,12 @@ class Main extends Component {
           return res.json();
         }
       }).then((json) => {
+        json = json.sort((a, b) => {
+          return a.date < b.date;
+        });
         // entries is a list of jsons
         this.setState({ entries: json });
-        this.refreshChart();
+        this.refreshChart(); // This call in the parent forces the child to refresh
       });
     }
   }
@@ -47,8 +50,8 @@ class Main extends Component {
     let list = this.state.entries;
     entry.entry_index = list.length;
     list.push(entry);
+
     this.setState({ entries: list });
-    // console.log(this.state.entries);
   }
 
   // Used to calc total expense
@@ -63,7 +66,6 @@ class Main extends Component {
   render() {
     return (
       <div className="Main col-auto">
-        {/* <img src="https://i.stack.imgur.com/L8d0H.jpg" alt="" className="img-fluid"></img> */}
 
         <Chart entries={this.state.entries} refresh={this.refreshChart}></Chart>
 
@@ -85,7 +87,7 @@ class Main extends Component {
           <thead>
             <tr>
               <th>Expense name</th>
-              <th>Category</th>
+              <th>Date</th>
               <th>Cost</th>
             </tr>
           </thead>

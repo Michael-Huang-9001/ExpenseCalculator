@@ -100,6 +100,8 @@ router.post('/api/entries/new', auth, function (req, res) {
                 category: req.body.category,
                 notes: req.body.notes
             }).then((entry) => {
+                entry.success = true;
+                console.log(entry);
                 res.json(entry);
             });
         } else {

@@ -24,14 +24,6 @@ class Navbar extends Component {
     window.location.reload();
   }
 
-  componentWillMount() {
-    if (localStorage.getItem("token")) {
-      this.setState({ logged_in: true });
-    } else {
-      this.setState({ logged_in: false });
-    }
-  }
-
   componentDidMount() {
     if (localStorage.getItem("token")) {
       this.setState({ logged_in: true });

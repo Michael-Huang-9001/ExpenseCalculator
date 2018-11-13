@@ -48,33 +48,40 @@ class New extends Component {
         let data = {
             entry_name: this.state.entry_name,
             cost: this.state.cost,
-            date: this.state.date,
+            date: this.state.date.toISOString(),
             category: this.state.category,
             notes: this.state.notes
         }
 
-        fetch(`/api/entries/new`, {
-            method: "POST",
-            body: JSON.stringify(data),
-            headers: {
-                'Accept': 'application/json',
-                "Content-Type": "application/json",
-                "token": localStorage.getItem("token")
-            },
-            credentials: "same-origin"
-        }).then((res) => {
-            return res.json();
-        }).then((json) => {
-            //console.log(json);
-            if (!json.success) {
-                alert("Please create an account or log in to save your entries.");
-            }
-            document.getElementById("close-create").click();
-        }).catch((error) => {
-            console.log(error);
-        });
+        if (localStorage.getItem('token')) {
+            fetch(`/api/entries/new`, {
+                method: "POST",
+                body: JSON.stringify(data),
+                headers: {
+                    'Accept': 'application/json',
+                    "Content-Type": "application/json",
+                    "token": localStorage.getItem("token")
+                },
+                credentials: "same-origin"
+            }).then((res) => {
+                return res.json();
+            }).then((json) => {
+                if (json.msg) {
+                    alert("Something went wrong.");
+                    console.log(json.msg);
+                }
+                //document.getElementById("close-create").click();
+            }).catch((error) => {
+                console.log(error);
+            });
+        } else {
+            alert("Please create an account or log in to save your entries.");
+        }
+
+        data.date = this.state.date.format();
 
         this.props.addEntry(data);
+        document.getElementById("close-create").click();
     }
 
     render() {

@@ -1,6 +1,10 @@
 const moment = require('moment');
 
-console.log(new Date('September 9 2017').getTime());
-console.log(moment('2017-09-10T00:00:00.000Z'));
+let date = new Date();
+let year = date.getFullYear();
+let month = date.getMonth();
+var first = new Date(year, month, 1);
+var last = new Date(year, month + 1, 0);
 
-console.log(moment().toLocaleString());
+//console.log(moment());
+console.log(moment().format())
