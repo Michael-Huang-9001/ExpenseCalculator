@@ -135,11 +135,8 @@ router.post('/api/entries/update', auth, function (req, res) {
         if (!msg) {
             //console.log(req.body);
 
-            Entries.findById(req.body._id, (error, entry) => {
-                if (error) {
-                    res.json({msg: "Something went wrong."});
-                    console.log(error);
-                } else {
+            Entries.findById(req.body._id)
+                .then((entry) => {
                     entry.entry_name = req.body.entry_name;
                     entry.cost = req.body.cost;
                     entry.date = req.body.date;
@@ -149,8 +146,12 @@ router.post('/api/entries/update', auth, function (req, res) {
                     entry.save(() => {
                         res.json(entry);
                     });
-                }
-            });
+                }).catch((error) => {
+                    if (error) {
+                        res.json({ msg: "Something went wrong." });
+                        console.log(error);
+                    }
+                });
         } else {
             res.json({ msg: msg });
         }

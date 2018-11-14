@@ -21,16 +21,16 @@ class Entry extends Component {
   }
 
   // Make a variable an arrow function
-  click = () => {
-    this.setState({ collapsed: !this.state.collapsed });
-    //console.log(`Component ${this.props.data.entry_name} is ${collapsed}`);
-  }
+  // click = () => {
+  //   this.setState({ collapsed: !this.state.collapsed });
+  //   //console.log(`Component ${this.props.data.entry_name} is ${collapsed}`);
+  // }
 
   // Pass in here
   render() {
     return (
       <React.Fragment>
-        <tr data-toggle="collapse" onClick={this.click} data-target={`#entry_${this.props.entry_index}`} className="tr-hover">
+        <tr data-toggle="collapse" data-target={`#entry_${this.props.entry_index}`} className="tr-hover">
           <td>{this.state.entry_name}</td>
           <td>{this.state.date.substring(0, 10)}</td>
           <td>{this.state.cost}</td>

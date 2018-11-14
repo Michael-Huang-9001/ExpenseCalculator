@@ -16,8 +16,8 @@ class Chart extends Component {
             cumulative: [],
             mode: 'a',
             date: date,
-            first: new Date(date.getFullYear(), date.getMonth(), 1),
-            last: new Date(date.getFullYear(), date.getMonth() + 1, 1)
+            first: new Date(date.getFullYear(), date.getMonth(), 0),
+            last: new Date(date.getFullYear(), date.getMonth() + 1, 0)
         }
     }
 
@@ -58,9 +58,9 @@ class Chart extends Component {
             let date = entry.date.substring(0, 10);
 
             if (daily_sums[date]) {
-                daily_sums[date] += entry.cost;
+                daily_sums[date] += Number(entry.cost);
             } else {
-                daily_sums[date] = entry.cost;
+                daily_sums[date] = Number(entry.cost);
             }
         });
 
@@ -70,7 +70,7 @@ class Chart extends Component {
         // Sorts the daily sums
         Object.keys(daily_sums).sort().forEach((key) => {
             labels.push(key);
-            daily_sums_sorted[key] = daily_sums[key];
+            daily_sums_sorted[key] = Number(daily_sums[key]);
         })
 
         daily_sums = daily_sums_sorted;
@@ -80,7 +80,7 @@ class Chart extends Component {
         let total = 0;
 
         Object.keys(daily_sums).forEach((key) => {
-            total += daily_sums[key];
+            total += Number(daily_sums[key]);
             cumulative[key] = total;
         });
 

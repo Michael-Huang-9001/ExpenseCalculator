@@ -51,7 +51,7 @@ class Modal extends Component {
             _id: this.props.data._id,
             entry_name: this.state.entry_name,
             cost: this.state.cost,
-            date: this.state.date,
+            date: this.state.date.format(),
             category: this.state.category,
             notes: this.state.notes
         }

@@ -50,15 +50,15 @@ class Main extends Component {
     let list = this.state.entries;
     entry.entry_index = list.length;
     list.push(entry);
-
     this.setState({ entries: list });
+    this.refreshChart();
   }
 
   // Used to calc total expense
   calc_total() {
     let total = 0;
     this.state.entries.forEach((entry) => {
-      total += entry.cost
+      total += Number(entry.cost);
     });
     return Math.round(total * 100) / 100;
   }
