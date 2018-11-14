@@ -7,6 +7,7 @@ class Entry extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      entry_index: this.props.entry_index,
       _id: this.props.data._id,
       date: this.props.data.date,
       category: this.props.data.category,
@@ -18,6 +19,8 @@ class Entry extends Component {
 
   update = (payload) => {
     this.setState(payload);
+    this.props.updateEntry(this.state);
+    //this.props.refreshChart();
   }
 
   // Make a variable an arrow function
@@ -52,7 +55,11 @@ class Entry extends Component {
               <br />
               <br />
 
-              <Modal entry_index={this.props.entry_index} update={this.update} key={this.props.entry_index} data={this.state}></Modal>
+              <Modal entry_index={this.props.entry_index}
+                update={this.update}
+                key={this.props.entry_index}
+                data={this.state}>
+              </Modal>
 
             </div>
           </td>

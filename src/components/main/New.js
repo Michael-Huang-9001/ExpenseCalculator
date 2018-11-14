@@ -82,8 +82,7 @@ class New extends Component {
         data.date = this.state.date.format();
 
         this.props.addEntry(data);
-        // resets the form
-        this.setState(this.defaultState);
+
         document.getElementById("close-create").click();
     }
 
@@ -126,7 +125,6 @@ class New extends Component {
                                 <b>Entry Name</b>
                                 <input required
                                     type="text" className="form-control"
-                                    defaultValue={this.state.entry_name}
                                     onChange={this.handleEntryNameChange}>
                                 </input>
 
@@ -136,7 +134,7 @@ class New extends Component {
                                 <input className="form-control" required
                                     type="number"
                                     step="0.01"
-                                    defaultValue={this.state.cost}
+                                    defaultValue={''}
                                     onChange={this.handleCostChange}>
                                 </input>
 
@@ -147,7 +145,7 @@ class New extends Component {
                                     className="form-control"
                                     rows="5" cols="10"
                                     placeholder="No notes"
-                                    defaultValue={this.state.notes}
+                                    defaultValue={''}
                                     onChange={this.handleNotesChange}>
                                 </textarea>
 

@@ -56,38 +56,46 @@ class Modal extends Component {
             notes: this.state.notes
         }
 
-        fetch(`/api/entries/update`, {
-            method: "POST",
-            body: JSON.stringify(data),
-            headers: {
-                'Accept': 'application/json',
-                "Content-Type": "application/json",
-                "token": localStorage.getItem("token")
-            },
-            credentials: "same-origin"
-        }).then((res) => {
-            return res.json();
-        }).then(json => {
-            console.log(json);
+        if (localStorage.getItem('token')) {
+            fetch(`/api/entries/update`, {
+                method: "POST",
+                body: JSON.stringify(data),
+                headers: {
+                    'Accept': 'application/json',
+                    "Content-Type": "application/json",
+                    "token": localStorage.getItem("token")
+                },
+                credentials: "same-origin"
+            }).then((res) => {
+                return res.json();
+            }).then(json => {
 
-            let new_state = {
-                _id: json._id,
-                category: json.category,
-                entry_name: json.entry_name,
-                cost: json.cost,
-                notes: json.notes
-            }
-            this.setState(new_state);
-            this.setState({ date: moment(json.date) });
+                let new_state = {
+                    _id: json._id,
+                    category: json.category,
+                    entry_name: json.entry_name,
+                    cost: json.cost,
+                    notes: json.notes
+                }
+                this.setState(new_state);
+                this.setState({ date: moment(json.date) });
 
-            // For entry row
-            new_state.date = json.date;
-            this.props.update(new_state);
+                // For entry row
+                new_state.date = json.date;
 
-            document.getElementById(`close_modal_${this.props.entry_index}`).click();
-        }).catch((error) => {
-            console.log(error);
-        });
+                //console.log(new_state);
+                this.props.update(new_state);
+            }).catch((error) => {
+                console.log(error);
+                alert("An error has occured.");
+            });
+        } else {
+            // Not logged in
+            this.setState(data);
+            this.setState({ date: moment(data.date) });
+            this.props.update(data);
+        }
+        document.getElementById(`close_modal_${this.props.entry_index}`).click();
     }
 
     render() {

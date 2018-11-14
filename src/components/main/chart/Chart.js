@@ -14,7 +14,7 @@ class Chart extends Component {
             labels: [],
             daily_sums: [],
             cumulative: [],
-            mode: 'a',
+            mode: 'm',
             date: date,
             first: new Date(date.getFullYear(), date.getMonth(), 0),
             last: new Date(date.getFullYear(), date.getMonth() + 1, 0)
@@ -26,7 +26,7 @@ class Chart extends Component {
         // This forces a refresh of this component because the parent has changed its props passing down
         if (this.props.refresh !== this.state.refresh) {
             this.setState({ refresh: !this.props.refresh });
-            this.mapData('a');
+            this.mapData(this.state.mode);
         }
     }
 
