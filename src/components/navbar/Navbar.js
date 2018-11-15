@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./Navbar.css";
 import Login from './Login';
 import Register from './Register';
-import New from './New';
+//import New from './New';
 
 class Navbar extends Component {
   constructor() {
@@ -32,6 +32,23 @@ class Navbar extends Component {
     }
   }
 
+  deleteAllEntries = () => {
+    if (localStorage.getItem('token')) {
+      fetch(`/api/entries/delete`, {
+        method: "POST",
+        headers: {
+          token: localStorage.getItem("token")
+        }
+      }).then((res) => {
+        return res.json();
+      }).then((json) => {
+        console.log(json);
+      });
+
+      window.location.reload();
+    }
+  }
+
   render() {
     return (
       <div className="Navbar">
@@ -56,6 +73,10 @@ class Navbar extends Component {
             {/* <button className="btn btn-primary" data-toggle="modal" data-target="#new_entry">
               <i className="fas fa-plus"></i> Add new
             </button> */}
+          </div>
+
+          <div>
+            <button onClick={this.deleteAllEntries}>Delete All</button>
           </div>
 
           <div className={`pull-right ${this.state.logged_in ? 'hidden' : ''}`}>

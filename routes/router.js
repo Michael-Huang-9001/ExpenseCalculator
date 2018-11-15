@@ -39,7 +39,7 @@ router.get("/api/entries", auth, function (req, res) {
     // console.log(`GET @ /api/entries attempted.`);
     if (!req.owner) {
         res.status(403).json([]);
-        //console.log("no owner")
+        //console.log("no owner");
     } else {
         Entries.find({ owner: req.owner })
             .then((entry) => {
@@ -85,7 +85,7 @@ function validate_entry(body) {
  * For posting to create a new entry
  */
 router.post('/api/entries/new', auth, function (req, res) {
-    // console.log(`POST @ /api/entries/new attempted.`);
+    console.log(`POST @ /api/entries/new attempted.`);
     if (!req.owner) {
         res.json({ msg: "You are not logged in." });
     } else {
@@ -100,8 +100,7 @@ router.post('/api/entries/new', auth, function (req, res) {
                 category: req.body.category,
                 notes: req.body.notes
             }).then((entry) => {
-                entry.success = true;
-                console.log(entry);
+                //console.log(entry);
                 res.json(entry);
             });
         } else {
@@ -118,6 +117,25 @@ router.post('/api/entries/new', auth, function (req, res) {
         // }).then((entry) => {
         //     res.json(entry);
         // });
+    }
+    //res.json({ msg: "Not yet implemented." });
+});
+
+// For testing, deletes all entries of a user
+router.post('/api/entries/delete', auth, function (req, res) {
+    console.log(`POST @ /api/entries/delete attempted.`);
+    if (!req.owner) {
+        res.json({ msg: "You are not logged in." });
+    } else {
+        Entries.deleteMany({ owner: req.owner })
+            .then((deleted) => {
+                res.json(deleted);
+            })
+            .catch((error) => {
+                if(error) {
+                    res.json({msg: error.errmsg});
+                }
+            })
     }
     //res.json({ msg: "Not yet implemented." });
 });
