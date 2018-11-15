@@ -23,7 +23,6 @@ let entry_schema = new mongoose.Schema({
   notes: {
     type: String
   }
-
 });
 
 let Entry = mongoose.model("Entry", entry_schema);
