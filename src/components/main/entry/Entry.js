@@ -18,8 +18,9 @@ class Entry extends Component {
   }
 
   update = (payload) => {
+    payload.entry_index = this.state.entry_index;
     this.setState(payload);
-    this.props.updateEntry(this.state);
+    this.props.updateEntry(payload);
     //this.props.refreshChart();
   }
 

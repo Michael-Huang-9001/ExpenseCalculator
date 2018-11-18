@@ -14,7 +14,15 @@ class New extends Component {
             cost: '',
             notes: ''
         };
-        this.defaultState = this.state;
+
+        // { _id: 5bee064076dd3b0146fda310,
+        //     owner: '5bebfa309ccb8a00b082138d',
+        //     entry_name: '12',
+        //     cost: 12,
+        //     date: '2018-11-15T15:50:17-08:00',
+        //     category: '',
+        //     notes: '',
+        //     __v: 0 }
     }
 
     handleDateChange = (date) => {
@@ -47,12 +55,12 @@ class New extends Component {
         event.preventDefault();
 
         let data = {
-            entry_name: this.state.entry_name,
-            cost: this.state.cost,
             date: this.state.date.format(),
             category: this.state.category,
+            entry_name: this.state.entry_name,
+            cost: this.state.cost,
             notes: this.state.notes
-        }
+        };
 
         if (localStorage.getItem('token')) {
             fetch(`/api/entries/new`, {
@@ -70,18 +78,19 @@ class New extends Component {
                 if (json.msg) {
                     alert("Something went wrong.");
                     console.log(json.msg);
+                } else {
+                    // Server updated
+                    this.props.addEntry(json);
                 }
                 //document.getElementById("close-create").click();
             }).catch((error) => {
                 console.log(error);
             });
         } else {
+            // Not logged in
             alert("Please create an account or log in to save your entries.");
+            this.props.addEntry(data);
         }
-
-        data.date = this.state.date.format();
-
-        this.props.addEntry(data);
 
         document.getElementById("close-create").click();
     }

@@ -102,6 +102,9 @@ router.post('/api/entries/new', auth, function (req, res) {
             }).then((entry) => {
                 //console.log(entry);
                 res.json(entry);
+            }).catch((error) => {
+                console.log(error.errmsg);
+                res.json({ msg: error.errmsg });
             });
         } else {
             res.json({ msg: msg });
@@ -132,9 +135,8 @@ router.post('/api/entries/delete', auth, function (req, res) {
                 res.json(deleted);
             })
             .catch((error) => {
-                if(error) {
-                    res.json({msg: error.errmsg});
-                }
+                res.json({ msg: error.errmsg });
+
             })
     }
     //res.json({ msg: "Not yet implemented." });
@@ -153,23 +155,27 @@ router.post('/api/entries/update', auth, function (req, res) {
         if (!msg) {
             //console.log(req.body);
 
-            Entries.findById(req.body._id)
-                .then((entry) => {
-                    entry.entry_name = req.body.entry_name;
-                    entry.cost = req.body.cost;
-                    entry.date = req.body.date;
-                    entry.category = req.body.category;
-                    entry.notes = req.body.notes;
+            Entries.findById(req.body._id, function (error, entry) {
+                if (error) {
+                    res.json({ msg: "Something went wrong." });
+                    console.log(error);
+                } else {
+                    try {
+                        entry.entry_name = req.body.entry_name;
+                        entry.cost = req.body.cost;
+                        entry.date = req.body.date;
+                        entry.category = req.body.category;
+                        entry.notes = req.body.notes;
 
-                    entry.save(() => {
-                        res.json(entry);
-                    });
-                }).catch((error) => {
-                    if (error) {
-                        res.json({ msg: "Something went wrong." });
-                        console.log(error);
+                        entry.save(() => {
+                            res.json(entry);
+                        });
+                    } catch (error) {
+                        console.log(error.errmsg);
+                        res.json({ msg: error.errmsg });
                     }
-                });
+                }
+            });
         } else {
             res.json({ msg: msg });
         }

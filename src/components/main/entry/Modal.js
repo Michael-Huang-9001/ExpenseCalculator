@@ -48,7 +48,7 @@ class Modal extends Component {
         event.preventDefault();
 
         let data = {
-            _id: this.props.data._id,
+            _id: this.state._id,
             entry_name: this.state.entry_name,
             cost: this.state.cost,
             date: this.state.date.format(),
@@ -56,7 +56,12 @@ class Modal extends Component {
             notes: this.state.notes
         }
 
+        console.log('payload in modal ready to eject');
+        console.log(data);
+
         if (localStorage.getItem('token')) {
+            // Attach ID only if logged in
+
             fetch(`/api/entries/update`, {
                 method: "POST",
                 body: JSON.stringify(data),
@@ -68,31 +73,22 @@ class Modal extends Component {
                 credentials: "same-origin"
             }).then((res) => {
                 return res.json();
-            }).then(json => {
+            }).then((json) => {
+                // console.log(`Server response in update/modal`);
+                // console.log(json);
 
-                let new_state = {
-                    _id: json._id,
-                    category: json.category,
-                    entry_name: json.entry_name,
-                    cost: json.cost,
-                    notes: json.notes
+                if (json.msg) {
+                    // Error message from server
+                    alert(json.msg);
+                } else {
+                    this.props.update(json);
                 }
-                this.setState(new_state);
-                this.setState({ date: moment(json.date) });
-
-                // For entry row
-                new_state.date = json.date;
-
-                //console.log(new_state);
-                this.props.update(new_state);
             }).catch((error) => {
                 console.log(error);
                 alert("An error has occured.");
             });
         } else {
             // Not logged in
-            this.setState(data);
-            this.setState({ date: moment(data.date) });
             this.props.update(data);
         }
         document.getElementById(`close_modal_${this.props.entry_index}`).click();

@@ -53,19 +53,20 @@ class Main extends Component {
     this.setState({ entries: list });
     this.refreshChart();
 
-    console.log(`entries in main/update:`);
-    console.log(this.state.entries);
+    // console.log(`entries in main/update:`);
+    // console.log(this.state.entries);
   }
 
   addEntry = (entry) => {
     let list = this.state.entries;
+
     entry.entry_index = list.length;
     list.push(entry);
     this.setState({ entries: list });
     this.refreshChart();
 
-    console.log(`entries in main/add:`);
-    console.log(this.state.entries);
+    // console.log(`entries in main/add:`);
+    // console.log(this.state.entries);
   }
 
   // Used to calc total expense
