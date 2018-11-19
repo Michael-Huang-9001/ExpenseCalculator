@@ -113,6 +113,7 @@ class New extends Component {
 
                                 <br />
                                 <DatePicker
+                                    required
                                     className="form-control"
                                     todayButton={"Today"}
                                     selected={this.state.date}

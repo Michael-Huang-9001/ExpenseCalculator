@@ -21,14 +21,7 @@ class Entry extends Component {
     payload.entry_index = this.state.entry_index;
     this.setState(payload);
     this.props.updateEntry(payload);
-    //this.props.refreshChart();
   }
-
-  // Make a variable an arrow function
-  // click = () => {
-  //   this.setState({ collapsed: !this.state.collapsed });
-  //   //console.log(`Component ${this.props.data.entry_name} is ${collapsed}`);
-  // }
 
   // Pass in here
   render() {
