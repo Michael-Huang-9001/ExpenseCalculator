@@ -70,9 +70,9 @@ class Navbar extends Component {
               </li>
             </ul> */}
 
-            {/* <button className="btn btn-primary" data-toggle="modal" data-target="#new_entry">
+            <button className="btn btn-primary" data-toggle="modal" data-target="#new_entry">
               <i className="fas fa-plus"></i> Add new
-            </button> */}
+            </button>
           </div>
 
           <div>
