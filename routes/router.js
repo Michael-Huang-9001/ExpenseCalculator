@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 const bcrypt = require('bcrypt');
 const email_validator = require('email-validator');
-const moment = require('moment');
+// const moment = require('moment');
 
 // MongoDB models
 const Entries = require('../models/entry');
@@ -36,30 +36,15 @@ router.get("/api", function (req, res) {
  * Grabs entries.
  */
 router.get("/api/entries", auth, function (req, res) {
-    // console.log(`GET @ /api/entries attempted.`);
+    console.log(`GET @ /api/entries attempted.`);
     if (!req.owner) {
         res.status(403).json([]);
-        //console.log("no owner");
     } else {
         Entries.find({ owner: req.owner })
             .then((entry) => {
                 res.json(entry);
             });
     }
-    // res.json([{
-    //     entry_name: "AMD Sapphire Radeon RX 580 8GB Special Edition Graphics Card",
-    //     cost: 189.99,
-    //     date: "October 13, 2018",
-    //     category: '',
-    //     notes: 'Original price = 229.99, saved 15% using eBay coupon, used ~60 worth of eBay gift card.'
-    // },
-    // {
-    //     entry_name: "Lillie (Full Art) - Ultra Prism",
-    //     cost: 41.99,
-    //     date: "September 18, 2019",
-    //     category: '',
-    //     notes: ''
-    // }]);
 });
 
 function validate_entry(body) {
