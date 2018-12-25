@@ -34,7 +34,7 @@ class Navbar extends Component {
 
 	deleteAllEntries = () => {
 		if (localStorage.getItem('token')) {
-			fetch(`/api/entries/delete`, {
+			fetch(`/api/entries/delete_all`, {
 				method: "POST",
 				headers: {
 					token: localStorage.getItem("token")
@@ -61,7 +61,7 @@ class Navbar extends Component {
             			</button>
 					</div>
 
-					<div>
+					<div className="hidden">
 						<button onClick={this.deleteAllEntries}>Delete All</button>
 					</div>
 
@@ -73,7 +73,6 @@ class Navbar extends Component {
             			<button className="btn btn-sm btn-info" data-toggle="modal" data-target="#sign-in">
 							Sign in
 						</button>
-
 					</div>
 
 					<div className={`pull-right ${this.state.logged_in ? '' : 'hidden'}`}>

@@ -52,7 +52,8 @@ class Entry extends Component {
 							<Modal entry_index={this.props.entry_index}
 								update={this.update}
 								key={this.props.entry_index}
-								data={this.state}>
+								data={this.state}
+								deleteEntry={this.props.deleteEntry}>
 							</Modal>
 
 						</div>

@@ -205,7 +205,7 @@ function validate_registration(body) {
  * For registering new users.
  */
 router.post('/api/register', function (req, res) {
-    //console.log(`POST @ /api/register attempted.`);
+    console.log(`POST @ /api/register attempted.`);
 
     if (req.body) {
         let error_message = validate_registration(req.body);

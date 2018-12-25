@@ -26,7 +26,7 @@ class Chart extends Component {
 	componentWillReceiveProps(props) {
 		// This forces a refresh of this component because the parent has changed its props passing down
 		if (this.props.refresh !== this.state.refresh) {
-			this.setState({ refresh: !this.props.refresh });
+			this.setState({ refresh: !this.props.refresh, entries: this.props.entries });
 			this.mapData(this.state.mode);
 		}
 	}

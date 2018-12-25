@@ -14,15 +14,6 @@ class New extends Component {
 			cost: "",
 			notes: ""
 		};
-
-		// { _id: 5bee064076dd3b0146fda310,
-		//     owner: '5bebfa309ccb8a00b082138d',
-		//     entry_name: '12',
-		//     cost: 12,
-		//     date: '2018-11-15T15:50:17-08:00',
-		//     category: '',
-		//     notes: '',
-		//     __v: 0 }
 	}
 
 	handleDateChange = date => {
@@ -62,8 +53,6 @@ class New extends Component {
 			cost: this.state.cost,
 			notes: this.state.notes
 		};
-
-		console.log(data);
 
 		if (localStorage.getItem("token")) {
 			fetch(`/api/entries/new`, {

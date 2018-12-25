@@ -5,8 +5,8 @@ class Categories extends Component {
   render() {
     return (
       <div className="Categories col-sm">
-        <h5>Categories</h5>
-        <hr></hr>
+        {/* <h5>Categories</h5>
+        <hr></hr> */}
       </div>
     );
   }

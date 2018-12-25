@@ -30,7 +30,7 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
-  "proxy": "https://ex-calc.herokuapp.com/",
+  "proxy": "http://localhost:8000",
   "devDependencies": {
     "concurrently": "^4.0.1"
   },

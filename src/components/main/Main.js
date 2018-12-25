@@ -62,11 +62,17 @@ class Main extends Component {
         this.setState({ entries: list });
         this.setState({ max_entry_index: this.state.max_entry_index + 1 });
         this.refreshChart();
-
-        console.log(this.state.entries);
     };
 
-    deleteEntry = entry => { };
+    deleteEntry = (_id) => {
+        this.setState({
+            entries: this.state.entries.filter((entry) => {
+                return entry._id !== _id;
+            })
+        });
+
+        this.refreshChart();
+    };
 
     // Used to calc total expense
     calc_total = () => {
@@ -85,19 +91,7 @@ class Main extends Component {
                 {/* <hr /> */}
                 <div className="row" style={{ textAlign: "center" }}>
                     <div className="col-5">
-                        {/* <button
-              className="btn-xs btn-primary"
-              style={{ float: "left" }}
-              data-toggle="modal"
-              data-target="#new_entry"
-            ><i className="fas fa-plus" /> Add new
-            </button> */}
                     </div>
-                    {/* <div className="col-5" style={{ float: "right" }}>
-            <p style={{ textAlign: "right", float: "right" }}>
-              <b>Total expenditure: ${this.calc_total()}</b>
-            </p>
-          </div> */}
                 </div>
 
                 <New addEntry={this.addEntry} />
@@ -118,6 +112,7 @@ class Main extends Component {
                                 entry_index={index}
                                 data={entry}
                                 updateEntry={this.updateEntry}
+                                deleteEntry={this.deleteEntry}
                             />
                         ))}
                     </tbody>
