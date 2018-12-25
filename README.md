@@ -1,6 +1,6 @@
 # Expenditure Calculator
 
-It is a full-stack application built using React as the front-end and Node.js as the backend, with MongoDB being the DBMS of choice.
+A full-stack application built using React as the front-end and Node.js as the backend, with MongoDB being the DBMS of choice.
 The app itself is a React app built to graph and chart your personal expenditures to see how much expenses pile up and see which ones are not needed or which ones take up the most.
 
 ## Dependencies
