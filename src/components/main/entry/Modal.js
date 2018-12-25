@@ -56,12 +56,10 @@ class Modal extends Component {
             notes: this.state.notes
         }
 
-        console.log('payload in modal ready to eject');
-        console.log(data);
+        // console.log('payload in modal ready to eject');
+        // console.log(data);
 
         if (localStorage.getItem('token')) {
-            // Attach ID only if logged in
-
             fetch(`/api/entries/update`, {
                 method: "POST",
                 body: JSON.stringify(data),
@@ -90,6 +88,45 @@ class Modal extends Component {
         } else {
             // Not logged in
             this.props.update(data);
+        }
+        document.getElementById(`close_modal_${this.props.entry_index}`).click();
+    }
+
+    deleteEntry = () => {
+        if (localStorage.getItem('token')) {
+            // let data = {
+            //     _id: this.state._id,
+            //     verify_delete: true
+            // };
+
+            fetch(`/api/entries/delete`, {
+                method: "POST",
+                body: JSON.stringify({
+                    _id: this.state._id,
+                    verify_delete: true
+                }),
+                headers: {
+                    'Accept': 'application/json',
+                    "Content-Type": "application/json",
+                    "token": localStorage.getItem("token")
+                },
+                credentials: "same-origin"
+            }).then((res) => {
+                return res.json();
+            }).then((json) => {
+                console.log(json);
+                if (json.success) {
+                    this.props.deleteEntry(this.state._id);
+                } else {
+                    alert("Something went wrong while trying to delete the entry.");
+                    console.log(json.msg);
+                }
+            }).catch((error) => {
+                console.log(error);
+                alert("An error has occured.");
+            });
+        } else {
+            this.props.deleteEntry(this.state._id);
         }
         document.getElementById(`close_modal_${this.props.entry_index}`).click();
     }
@@ -163,6 +200,7 @@ class Modal extends Component {
                                 <br />
 
                                 <div className="modal-footer">
+                                    <button type="button" className="btn btn-danger" onClick={this.deleteEntry}>Delete</button>
                                     <button type="submit" className="btn btn-primary">Update</button>
                                     <button id={`close_modal_${this.props.entry_index}`} type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                                 </div>
