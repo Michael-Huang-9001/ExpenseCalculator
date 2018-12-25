@@ -7,7 +7,7 @@
 /coverage
 
 # production
-/build
+#/build
 /config/db_mlab.js
 
 # misc
